@@ -1,7 +1,6 @@
 import click
 from clickclick import Action
 from .api import generate_scm_source
-import sys
 
 
 @click.command()
