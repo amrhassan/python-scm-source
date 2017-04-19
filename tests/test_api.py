@@ -23,3 +23,11 @@ def test_generate_scm_source_dir_not_exists(monkeypatch):
     monkeypatch.setattr('os.path.isdir', lambda x: False)
     with pytest.raises(FileNotFoundError):
         generate_scm_source('test.json', 'JohnDoe', 'does-not-exist')
+
+
+def test_generate_scm_source_throws_on_fail_on_modified(monkeypatch):
+    def mocked_check_output(x):
+        return b'NONEMPTY STRING'
+    monkeypatch.setattr('subprocess.check_output', mocked_check_output)
+    with pytest.raises(RuntimeError):
+        generate_scm_source('', '', fail_on_modified=True)
